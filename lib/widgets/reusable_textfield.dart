@@ -28,7 +28,7 @@ class ReusableTextfield extends StatelessWidget {
       ),
       child: TextFormField(
         controller: cntrlr,
-        style: Fontstyles.ContentTextStyle3(context),
+        style: Fontstyles.lightTextStyle(context),
         obscureText: isObscure,
         validator: validator, 
         decoration: InputDecoration(
