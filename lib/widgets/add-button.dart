@@ -34,13 +34,6 @@ class AddButton extends StatelessWidget {
                     SizedBox(
                       height: 20,
                     ),
-                    CircleAvatar(
-                      radius: 30,
-                      backgroundImage: AssetImage("assets/person.png"),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
                     ReusableTextfield(
                         prefixicon: Icon(Icons.person),
                         title: "Name",
