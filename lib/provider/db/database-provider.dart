@@ -22,13 +22,13 @@ class DatabaseProvider with ChangeNotifier {
 
   // Get Contact
 
-  // Edit Contact
+  // Edit Contact (identify using phone number)
 
-  // Delete Contact
+  // Delete Contact (identify using phone number)
 
   // Add to Favorites
 
   // Get Favorites
 
-  // Remove from Favorites
+  // Remove from Favorites (identify using phone number)
 }
