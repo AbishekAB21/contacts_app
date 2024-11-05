@@ -1,7 +1,10 @@
+import 'package:contacts_app/provider/db/database-provider.dart';
 import 'package:contacts_app/utils/app-color.dart';
 import 'package:contacts_app/utils/fontstyles.dart';
+import 'package:contacts_app/widgets/reusable-snackbar.dart';
 import 'package:contacts_app/widgets/reusable_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AddButton extends StatelessWidget {
   const AddButton({super.key});
@@ -11,6 +14,8 @@ class AddButton extends StatelessWidget {
     TextEditingController nameCntrlr = TextEditingController();
     TextEditingController emailCntrlr = TextEditingController();
     TextEditingController phoneNumCntrlr = TextEditingController();
+
+    final _dbProvider = Provider.of<DatabaseProvider>(context);
 
     return FloatingActionButton(
       onPressed: () {
@@ -61,7 +66,27 @@ class AddButton extends StatelessWidget {
               actions: [
                 TextButton(
                     onPressed: () {
-                      // Add to firebase
+                      if (nameCntrlr.text.isNotEmpty &&
+                          phoneNumCntrlr.text.isNotEmpty &&
+                          emailCntrlr.text.isNotEmpty) {
+                        Map<String, dynamic> contactsMap = {
+                          "name": nameCntrlr.text,
+                          "phone": phoneNumCntrlr.text,
+                          "email": emailCntrlr.text,
+                        };
+                        _dbProvider.addContacts(contactsMap, context);
+                        nameCntrlr.clear();
+                        emailCntrlr.clear();
+                        phoneNumCntrlr.clear();
+                        ReusableSnackbar().showSnackbar(
+                            context,
+                            "Successfully added contact",
+                            appcolor.successColor);
+                        Navigator.pop(context);
+                      } else {
+                        ReusableSnackbar().showSnackbar(context,
+                            "Please fill all the fields", appcolor.errorColor);
+                      }
                     },
                     child: Text(
                       "Add",
