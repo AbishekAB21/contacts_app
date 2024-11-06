@@ -14,13 +14,18 @@ class DatabaseProvider with ChangeNotifier {
       ReusableSnackbar().showSnackbar(
           context, "Successfully added contact", appcolor.successColor);
     } catch (e) {
-      ReusableSnackbar().showSnackbar(
-          context, "Error adding contact", appcolor.errorColor);
+      ReusableSnackbar()
+          .showSnackbar(context, "Error adding contact", appcolor.errorColor);
       print(e);
     }
   }
 
-  // Get Contact
+  // Get Contacts
+  Stream<List<Map<String, dynamic>>> getContactsStream() {
+    return _firebase.collection('contacts').snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => doc.data()).toList();
+    });
+  }
 
   // Edit Contact (identify using phone number)
 
