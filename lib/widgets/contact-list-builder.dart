@@ -2,6 +2,7 @@ import 'package:contacts_app/provider/db/database-provider.dart';
 import 'package:contacts_app/screens/contact-details-screen.dart';
 import 'package:contacts_app/utils/app-color.dart';
 import 'package:contacts_app/utils/fontstyles.dart';
+import 'package:contacts_app/widgets/empty-widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,8 +17,10 @@ class ContactsListBuilder extends StatelessWidget {
       stream: _dbProvider.getContactsStream(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator(
-            color: appcolor.teritiaryColor,
+          return Center(
+            child: CircularProgressIndicator(
+              color: appcolor.teritiaryColor,
+            ),
           );
         }
         if (snapshot.hasError) {
@@ -29,12 +32,7 @@ class ContactsListBuilder extends StatelessWidget {
           );
         }
         if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(
-            child: Text(
-              "No Contacts",
-              style: Fontstyles.ContentTextStyle(context),
-            ),
-          );
+          return EmptyWidget(title: "No Contacts!");
         }
 
         final contacts = snapshot.data!;

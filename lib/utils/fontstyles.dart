@@ -35,6 +35,16 @@ class Fontstyles{
     );
   }
 
+  static TextStyle lightTextStyle2(BuildContext context){
+
+    return TextStyle(
+      fontFamily: 'Poppins',
+      fontSize: 16,
+      color: appcolor.teritiaryColor,
+      fontWeight: FontWeight.w300
+    );
+  }
+
   static TextStyle ContentTextStyle(BuildContext context){
 
     return TextStyle(
