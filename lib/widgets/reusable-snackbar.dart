@@ -12,7 +12,7 @@ class ReusableSnackbar {
         duration: Duration(seconds: 3),
         behavior: SnackBarBehavior.floating,
         shape:
-            ContinuousRectangleBorder(borderRadius: BorderRadius.circular(5)),
+            ContinuousRectangleBorder(borderRadius: BorderRadius.circular(10)),
         content: Text(
           message,
           style: Fontstyles.ButtonText1(context),

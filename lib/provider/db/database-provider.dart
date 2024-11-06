@@ -127,4 +127,25 @@ class DatabaseProvider with ChangeNotifier {
   }
 
   // Remove from Favorites (identify using phone number)
+  Future<void> deleteFavContacts(
+      String phoneNumber, BuildContext context) async {
+    try {
+      // find doc
+      final querySnapshot = await _firebase
+          .collection('favorites')
+          .where('phone', isEqualTo: phoneNumber)
+          .limit(1)
+          .get();
+      // delete contact
+      if (querySnapshot.docs.isNotEmpty) {
+        final docId = querySnapshot.docs.first.id;
+        await _firebase.collection('favorites').doc(docId).delete();
+       
+      }
+    } catch (e) {
+      print(e);
+      ReusableSnackbar().showSnackbar(
+          context, "Error removing from favorites", appcolor.errorColor);
+    }
+  }
 }

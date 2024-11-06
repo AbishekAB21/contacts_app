@@ -1,6 +1,7 @@
 import 'package:contacts_app/provider/db/database-provider.dart';
 import 'package:contacts_app/utils/app-color.dart';
 import 'package:contacts_app/utils/fontstyles.dart';
+import 'package:contacts_app/widgets/reusable-snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -37,7 +38,7 @@ class FavoritesListBuilder extends StatelessWidget {
 
         final favContacts = snapshot.data!;
 
-      return  Expanded(
+        return Expanded(
           child: ListView.separated(
             physics: BouncingScrollPhysics(),
             itemBuilder: (context, index) {
@@ -51,7 +52,7 @@ class FavoritesListBuilder extends StatelessWidget {
                 contentPadding:
                     EdgeInsets.symmetric(vertical: 1, horizontal: 10),
                 title: Text(
-                 favName,
+                  favName,
                   style: Fontstyles.HeadlineStyle3(context),
                 ),
                 subtitle: Text(
@@ -74,7 +75,41 @@ class FavoritesListBuilder extends StatelessWidget {
                         )),
                     IconButton(
                         highlightColor: appcolor.teritiaryColor,
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              backgroundColor: appcolor.unselectedColor,
+                              content: Text(
+                                "Remove from favorites?",
+                                style: Fontstyles.ContentTextStyle(context),
+                              ),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      _dbProvider.deleteFavContacts(
+                                          favPhone, context);
+                                      Navigator.pop(context);
+                                      ReusableSnackbar().showSnackbar(
+                                          context,
+                                          "Removed from favorites",
+                                          appcolor.successColor);
+                                    },
+                                    child: Text(
+                                      "Yes",
+                                      style: Fontstyles.ButtonText1(context),
+                                    )),
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("Cancel",
+                                        style:
+                                            Fontstyles.ButtonText1(context))),
+                              ],
+                            ),
+                          );
+                        },
                         icon: Icon(
                           Icons.remove,
                           color: appcolor.teritiaryColor,
