@@ -65,7 +65,9 @@ class BottomAppBarWidget extends StatelessWidget {
           ),
           IconButton(
             highlightColor: appcolor.teritiaryColor,
-            onPressed: () {},
+            onPressed: () {
+              _dbProvider.deleteContacts(phoneNumber, context);
+            },
             icon: Icon(
               Icons.delete_rounded,
               color: appcolor.primaryColor,

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:contacts_app/screens/bottom-nav-bar.dart';
 import 'package:contacts_app/utils/app-color.dart';
 import 'package:contacts_app/widgets/reusable-snackbar.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,7 @@ class DatabaseProvider with ChangeNotifier {
           .where('phone', isEqualTo: oldPhoneNumber)
           .limit(1)
           .get();
-      // Updating contact    
+      // Updating contact
       if (querySnapshot.docs.isNotEmpty) {
         final docId = querySnapshot.docs.first.id;
         await _firebase
@@ -48,7 +49,6 @@ class DatabaseProvider with ChangeNotifier {
             "Updated contact details successfully!", appcolor.successColor);
         notifyListeners();
       }
-      
     } catch (e) {
       print(e);
       ReusableSnackbar()
@@ -57,6 +57,34 @@ class DatabaseProvider with ChangeNotifier {
   }
 
   // Delete Contact (identify using phone number)
+
+  Future<void> deleteContacts(String phoneNumber, BuildContext context) async {
+    try {
+      // find doc
+      final querySnapshot = await _firebase
+          .collection('contacts')
+          .where('phone', isEqualTo: phoneNumber)
+          .limit(1)
+          .get();
+      // delete contact
+      if (querySnapshot.docs.isNotEmpty) {
+        final docId = querySnapshot.docs.first.id;
+        await _firebase.collection('contacts').doc(docId).delete();
+        ReusableSnackbar()
+            .showSnackbar(context, "Deleted contact", appcolor.successColor);
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BottomNavBar(),
+            ));
+        notifyListeners();
+      }
+    } catch (e) {
+      print(e);
+      ReusableSnackbar()
+          .showSnackbar(context, "Error updating contact", appcolor.errorColor);
+    }
+  }
 
   // Add to Favorites
 
