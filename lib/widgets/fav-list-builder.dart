@@ -17,9 +17,11 @@ class FavoritesListBuilder extends StatelessWidget {
       stream: _dbProvider.getFavoriteContactsStream(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: CircularProgressIndicator(
-              color: appcolor.teritiaryColor,
+          return Expanded(
+            child: Center(
+              child: CircularProgressIndicator(
+                color: appcolor.teritiaryColor,
+              ),
             ),
           );
         }
