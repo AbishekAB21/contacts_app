@@ -28,6 +28,33 @@ class DatabaseProvider with ChangeNotifier {
   }
 
   // Edit Contact (identify using phone number)
+  Future<void> editContacts(Map<String, dynamic> updatedContactMap,
+      String oldPhoneNumber, BuildContext context) async {
+    try {
+      // find doc
+      final querySnapshot = await _firebase
+          .collection('contacts')
+          .where('phone', isEqualTo: oldPhoneNumber)
+          .limit(1)
+          .get();
+      // Updating contact    
+      if (querySnapshot.docs.isNotEmpty) {
+        final docId = querySnapshot.docs.first.id;
+        await _firebase
+            .collection('contacts')
+            .doc(docId)
+            .update(updatedContactMap);
+        ReusableSnackbar().showSnackbar(context,
+            "Updated contact details successfully!", appcolor.successColor);
+        notifyListeners();
+      }
+      
+    } catch (e) {
+      print(e);
+      ReusableSnackbar()
+          .showSnackbar(context, "Error updating contact", appcolor.errorColor);
+    }
+  }
 
   // Delete Contact (identify using phone number)
 

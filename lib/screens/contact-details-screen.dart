@@ -101,7 +101,11 @@ class ContactDetailScreen extends StatelessWidget {
               ),
             ),
           ),
-          bottomNavigationBar: BottomAppBarWidget()),
+          bottomNavigationBar: BottomAppBarWidget(
+            contactName: contactName,
+            phoneNumber: phoneNumber,
+            email: email,
+          )),
     );
   }
 }
