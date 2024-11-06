@@ -4,6 +4,7 @@ import 'package:contacts_app/utils/app-color.dart';
 import 'package:contacts_app/utils/fontstyles.dart';
 import 'package:contacts_app/widgets/bottom-app-bar.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactDetailScreen extends StatelessWidget {
   String contactName;
@@ -61,7 +62,17 @@ class ContactDetailScreen extends StatelessWidget {
                           style: Fontstyles.ButtonText2(context),
                         ),
                         IconButton(
-                            onPressed: () {},
+                            onPressed: () async{
+                              final Uri url = Uri(
+                                scheme: 'tel',
+                                path: phoneNumber,
+                              );
+                              if(await canLaunchUrl(url)){
+                                await launchUrl(url);
+                              }else{
+                                print("Cannot launch this url");
+                              }
+                            },
                             icon: Icon(
                               Icons.phone_rounded,
                               color: appcolor.buttonColor,

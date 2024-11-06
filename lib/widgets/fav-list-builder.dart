@@ -4,6 +4,7 @@ import 'package:contacts_app/utils/fontstyles.dart';
 import 'package:contacts_app/widgets/reusable-snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FavoritesListBuilder extends StatelessWidget {
   const FavoritesListBuilder({super.key});
@@ -68,7 +69,17 @@ class FavoritesListBuilder extends StatelessWidget {
                   children: [
                     IconButton(
                         highlightColor: appcolor.teritiaryColor,
-                        onPressed: () {},
+                        onPressed: () async {
+                          final Uri url = Uri(
+                            scheme: 'tel',
+                            path: favPhone,
+                          );
+                          if (await canLaunchUrl(url)) {
+                            await launchUrl(url);
+                          } else {
+                            print("Cannot launch this url");
+                          }
+                        },
                         icon: Icon(
                           Icons.call,
                           color: appcolor.buttonColor,
