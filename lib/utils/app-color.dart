@@ -13,6 +13,7 @@ abstract class AppColor {
   final Color buttonColor;
   final Color successColor;
   final Color errorColor;
+  final Color warningColor;
   final Color gradientColor1;
   final Color gradientColor2;
   final Color borderColor;
@@ -29,6 +30,7 @@ abstract class AppColor {
     required this.buttonColor,
     required this.successColor,
     required this.errorColor,
+    required this.warningColor,
     required this.gradientColor1,
     required this.gradientColor2,
     required this.borderColor,
@@ -49,6 +51,7 @@ class AppDefaultColor extends AppColor {
           buttonColor: Colors.blue,
           successColor: Colors.green,
           errorColor: Colors.red,
+          warningColor: Colors.orange,
           gradientColor1: Color(0xFF191970),
           gradientColor2: Color(0xFF8A2BE2),
           borderColor: Colors.white70,

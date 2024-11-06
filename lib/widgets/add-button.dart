@@ -78,11 +78,6 @@ class AddButton extends StatelessWidget {
                         nameCntrlr.clear();
                         emailCntrlr.clear();
                         phoneNumCntrlr.clear();
-                        ReusableSnackbar().showSnackbar(
-                            context,
-                            "Successfully added contact",
-                            appcolor.successColor);
-                        Navigator.pop(context);
                       } else {
                         ReusableSnackbar().showSnackbar(context,
                             "Please fill all the fields", appcolor.errorColor);

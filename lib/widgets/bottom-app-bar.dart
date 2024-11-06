@@ -57,7 +57,14 @@ class BottomAppBarWidget extends StatelessWidget {
           ),
           IconButton(
             highlightColor: appcolor.teritiaryColor,
-            onPressed: () {},
+            onPressed: () {
+              Map<String,dynamic> favoriteContactMap = {
+                "name" : contactName,
+                "phone" : phoneNumber,
+                "email" : email,
+              };
+              _dbProvider.addToFavorites(favoriteContactMap, context);
+            },
             icon: Icon(
               Icons.favorite,
               color: appcolor.primaryColor,

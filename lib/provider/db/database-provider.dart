@@ -11,9 +11,19 @@ class DatabaseProvider with ChangeNotifier {
   Future<void> addContacts(
       Map<String, dynamic> contactMap, BuildContext context) async {
     try {
-      await _firebase.collection('contacts').add(contactMap);
-      ReusableSnackbar().showSnackbar(
-          context, "Successfully added contact", appcolor.successColor);
+      var querySnapshot = await _firebase
+          .collection('contacts')
+          .where('phone', isEqualTo: contactMap['phone'])
+          .get();
+      if (querySnapshot.docs.isNotEmpty) {
+        ReusableSnackbar().showSnackbar(
+            context, "Contact already exists", appcolor.warningColor);
+      } else {
+        await _firebase.collection('contacts').add(contactMap);
+        ReusableSnackbar().showSnackbar(
+            context, "Successfully added contact", appcolor.successColor);
+        Navigator.pop(context);
+      }
     } catch (e) {
       ReusableSnackbar()
           .showSnackbar(context, "Error adding contact", appcolor.errorColor);
@@ -57,7 +67,6 @@ class DatabaseProvider with ChangeNotifier {
   }
 
   // Delete Contact (identify using phone number)
-
   Future<void> deleteContacts(String phoneNumber, BuildContext context) async {
     try {
       // find doc
@@ -82,13 +91,40 @@ class DatabaseProvider with ChangeNotifier {
     } catch (e) {
       print(e);
       ReusableSnackbar()
-          .showSnackbar(context, "Error updating contact", appcolor.errorColor);
+          .showSnackbar(context, "Error deleting contact", appcolor.errorColor);
     }
   }
 
-  // Add to Favorites
+// Add to favorites
+  Future<void> addToFavorites(
+      Map<String, dynamic> favouriteContactsMap, BuildContext context) async {
+    try {
+      var querySnapshot = await _firebase
+          .collection('favorites')
+          .where('phone', isEqualTo: favouriteContactsMap['phone'])
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        ReusableSnackbar().showSnackbar(
+            context, "Already in favorites", appcolor.warningColor);
+      } else {
+        await _firebase.collection('favorites').add(favouriteContactsMap);
+        ReusableSnackbar()
+            .showSnackbar(context, "Added to favorites", appcolor.successColor);
+      }
+    } catch (e) {
+      print(e);
+      ReusableSnackbar().showSnackbar(
+          context, "Error adding to favorites", appcolor.errorColor);
+    }
+  }
 
   // Get Favorites
+  Stream<List<Map<String, dynamic>>> getFavoriteContactsStream() {
+    return _firebase.collection('favorites').snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => doc.data()).toList();
+    });
+  }
 
   // Remove from Favorites (identify using phone number)
 }

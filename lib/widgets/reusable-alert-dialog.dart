@@ -1,3 +1,4 @@
+import 'package:contacts_app/screens/bottom-nav-bar.dart';
 import 'package:flutter/material.dart';
 import 'package:contacts_app/utils/app-color.dart';
 import 'package:contacts_app/utils/fontstyles.dart';
@@ -17,7 +18,8 @@ class ReusableAlertDialog extends StatelessWidget {
     required this.phoneNumCntrlr,
     required this.emailCntrlr,
     required this.onSubmit,
-    this.actionText = "Add", // Defaults to "Add", can be set to "Update" for edit mode
+    this.actionText =
+        "Add", // Defaults to "Add", can be set to "Update" for edit mode
   });
 
   @override
@@ -69,8 +71,18 @@ class ReusableAlertDialog extends StatelessWidget {
                 "phone": phoneNumCntrlr.text,
                 "email": emailCntrlr.text,
               };
-              onSubmit(contactsMap); 
+              onSubmit(contactsMap);
               Navigator.pop(context);
+              ReusableSnackbar().showSnackbar(
+                context,
+                "Updated Contact Successfully",
+                appcolor.successColor,
+              );
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BottomNavBar(),
+                  ));
             } else {
               ReusableSnackbar().showSnackbar(
                 context,
